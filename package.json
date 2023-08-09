@@ -4,6 +4,8 @@
   "description": "Mongodb, Express, React, Nodejs",
   "main": "server.js",
   "scripts": {
+    "start": "node server.js",
+    "develop": "nodemon server.js",
     "test": "jest"
   },
   "repository": {
