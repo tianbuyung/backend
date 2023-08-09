@@ -1,0 +1,25 @@
+{
+  "name": "07-backend-mern",
+  "version": "1.0.0",
+  "description": "Mongodb, Express, React, Nodejs",
+  "main": "server.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/tianbuyung/backend.git"
+  },
+  "keywords": [
+    "mongodb",
+    "express",
+    "react",
+    "node.js"
+  ],
+  "author": "Septian Maulana",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tianbuyung/backend/issues"
+  },
+  "homepage": "https://github.com/tianbuyung/backend#readme"
+}
