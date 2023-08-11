@@ -6,7 +6,7 @@ const data = {
 };
 
 const readAllEmployees = (req, res) => {
-  res.json(data.employees);
+  res.status(200).json(data.employees);
 };
 
 const createNewEmployee = (req, res) => {
@@ -74,12 +74,14 @@ const readEmployee = (req, res) => {
   const employee = data.employees.find(
     (emp) => emp.id === parseInt(req.params.id)
   );
+
   if (!employee) {
     return res
       .status(400)
       .json({ message: `Employee ID ${req.params.id} not found` });
   }
-  res.json(employee);
+
+  res.status(200).json(employee);
 };
 
 module.exports = {
