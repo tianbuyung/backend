@@ -6,7 +6,7 @@ const path = require("path");
 const corsOptions = require("./config/corsOptions");
 const { logger } = require("./middlewares/logEvents");
 const errorHandler = require("./middlewares/errorHandler");
-const verifyJWT = require("../../middlewares/verifyJWT");
+const verifyJWT = require("./middlewares/verifyJWT");
 
 const PORT = process.env.PORT || 3500;
 
