@@ -65,7 +65,7 @@ const handleLogin = async (req, res) => {
     maxAge: 24 * 60 * 60 * 1000,
   });
 
-  res.json({
+  res.status(200).json({
     message: `User ${foundUser.username} is logged in!`,
     accessToken,
   });
