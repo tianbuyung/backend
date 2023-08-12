@@ -11,7 +11,6 @@ const handleRefreshToken = (req, res) => {
   const cookies = req.cookies;
 
   if (!cookies?.jwt) return res.sendStatus(401); // 401 Unauthorized
-  console.log(cookies.jwt);
 
   const refreshToken = cookies.jwt;
 
