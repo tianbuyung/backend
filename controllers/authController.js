@@ -70,7 +70,7 @@ const handleLogin = async (req, res) => {
   res.cookie("jwt", refreshToken, {
     httpOnly: true,
     sameSite: "none",
-    secure: true,
+    secure: process.env.NODE_ENV === "production" ? true : false,
     maxAge: 24 * 60 * 60 * 1000,
   });
 

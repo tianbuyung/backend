@@ -1,22 +1,5 @@
 [
   {
-    "username": "walt2",
-    "roles": {
-      "User": 2001,
-      "Editor": 1984
-    },
-    "password": "$2b$10$hqnGfuZBY.NnB/3bldBwWePOZHBTzPODWQb0ZN6Lrw7ttJFflEuHy"
-  },
-  {
-    "username": "walt3",
-    "roles": {
-      "User": 2001,
-      "Editor": 1984,
-      "Admin": 5150
-    },
-    "password": "$2b$10$OlUKGZ7ErlsPLjbSSH9nhupq3Bdt3qXvO2ckkizkCpgv0.Juj4gTK"
-  },
-  {
     "username": "tian",
     "roles": {
       "User": 2001,
@@ -32,6 +15,25 @@
       "User": 2001
     },
     "password": "$2b$10$NNobke6DQtjxctWF6QB0ue0NGkWHlJOz0uiqRUVNuJy4K99OfNoC2",
-    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IndhbHQxIiwiaWF0IjoxNjkxODI5MzU5LCJleHAiOjE2OTE5MTU3NTl9.wsU5S5ulaS6KtjkhTRGkJG-yw7bgV4GfMT7jMPv2SKE"
+    "refreshToken": ""
+  },
+  {
+    "username": "walt2",
+    "roles": {
+      "User": 2001,
+      "Editor": 1984
+    },
+    "password": "$2b$10$hqnGfuZBY.NnB/3bldBwWePOZHBTzPODWQb0ZN6Lrw7ttJFflEuHy",
+    "refreshToken": ""
+  },
+  {
+    "username": "walt3",
+    "roles": {
+      "User": 2001,
+      "Editor": 1984,
+      "Admin": 5150
+    },
+    "password": "$2b$10$OlUKGZ7ErlsPLjbSSH9nhupq3Bdt3qXvO2ckkizkCpgv0.Juj4gTK",
+    "refreshToken": ""
   }
 ]
