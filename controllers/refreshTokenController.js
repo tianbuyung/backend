@@ -29,8 +29,15 @@ const handleRefreshToken = (req, res) => {
       return res.sendStatus(403); // 403 Forbidden Invalid
     }
 
+    const roles = Object.keys(foundUser.roles);
+
     const accessToken = jwt.sign(
-      { username: decoded.username },
+      {
+        UserInfo: {
+          username: foundUser.username,
+          roles,
+        },
+      },
       process.env.ACCESS_TOKEN_SECRET,
       { expiresIn: "30s" }
     );

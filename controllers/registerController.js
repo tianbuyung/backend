@@ -33,6 +33,7 @@ const handleNewUser = async (req, res) => {
     // store new user in database
     const newUser = {
       username: user,
+      roles: { User: 2001 },
       password: hashedPassword,
     };
 
