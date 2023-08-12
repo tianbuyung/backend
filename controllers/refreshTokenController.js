@@ -11,7 +11,6 @@ const handleRefreshToken = (req, res) => {
   const cookies = req.cookies;
 
   if (!cookies?.jwt) return res.sendStatus(401); // 401 Unauthorized
-  console.log(cookies.jwt);
 
   const refreshToken = cookies.jwt;
 
@@ -29,8 +28,15 @@ const handleRefreshToken = (req, res) => {
       return res.sendStatus(403); // 403 Forbidden Invalid
     }
 
+    const roles = Object.keys(foundUser.roles);
+
     const accessToken = jwt.sign(
-      { username: decoded.username },
+      {
+        UserInfo: {
+          username: foundUser.username,
+          roles,
+        },
+      },
       process.env.ACCESS_TOKEN_SECRET,
       { expiresIn: "30s" }
     );

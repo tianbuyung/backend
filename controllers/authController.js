@@ -32,9 +32,16 @@ const handleLogin = async (req, res) => {
     return res.sendStatus(401); // 401 Unauthorized
   }
 
+  const roles = Object.values(foundUser.roles);
+
   // create JWTs
   const accessToken = jwt.sign(
-    { username: foundUser.username },
+    {
+      UserInfo: {
+        username: foundUser.username,
+        roles,
+      },
+    },
     process.env.ACCESS_TOKEN_SECRET,
     { expiresIn: "30s" }
   );
@@ -63,7 +70,7 @@ const handleLogin = async (req, res) => {
   res.cookie("jwt", refreshToken, {
     httpOnly: true,
     sameSite: "none",
-    secure: true,
+    secure: process.env.NODE_ENV === "production" ? true : false,
     maxAge: 24 * 60 * 60 * 1000,
   });
 
