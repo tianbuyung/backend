@@ -6,9 +6,9 @@ const verifyRoles = (...allowedRoles) => {
     console.log(rolesArray);
     console.log(req.roles);
 
-    const result = req.roles.map((role) =>
-      rolesArray.includes(role).find((val) => val === true)
-    );
+    const result = req.roles
+      .map((role) => rolesArray.includes(role))
+      .find((val) => val === true);
     console.log(result);
 
     if (!result) return res.sendStatus(401);
