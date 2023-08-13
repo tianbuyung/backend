@@ -21,7 +21,7 @@ const handleRefreshToken = async (req, res) => {
       return res.sendStatus(403); // 403 Forbidden Invalid
     }
 
-    const roles = Object.keys(foundUser.roles);
+    const roles = Object.values(foundUser.roles);
 
     const accessToken = jwt.sign(
       {
