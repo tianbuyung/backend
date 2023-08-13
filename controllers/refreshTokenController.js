@@ -1,22 +1,15 @@
-const usersDB = {
-  users: require("../models/users.json"),
-  setUsers: function (data) {
-    this.users = data;
-  },
-};
 const jwt = require("jsonwebtoken");
-require("dotenv").config();
 
-const handleRefreshToken = (req, res) => {
+const User = require("../models/user");
+
+const handleRefreshToken = async (req, res) => {
   const cookies = req.cookies;
 
   if (!cookies?.jwt) return res.sendStatus(401); // 401 Unauthorized
 
   const refreshToken = cookies.jwt;
 
-  const foundUser = usersDB.users.find(
-    (person) => person.refreshToken === refreshToken
-  );
+  const foundUser = await User.findOne({ refreshToken }).exec();
 
   if (!foundUser) {
     return res.sendStatus(403); // 403 Forbidden Invalid
@@ -28,7 +21,7 @@ const handleRefreshToken = (req, res) => {
       return res.sendStatus(403); // 403 Forbidden Invalid
     }
 
-    const roles = Object.keys(foundUser.roles);
+    const roles = Object.values(foundUser.roles);
 
     const accessToken = jwt.sign(
       {
