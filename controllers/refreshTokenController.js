@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 
-const User = require("../models/user");
+const User = require("../models/User");
 
 const handleRefreshToken = async (req, res) => {
   const cookies = req.cookies;
