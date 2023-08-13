@@ -1,5 +1,5 @@
 {
-  "name": "07-backend-mern",
+  "name": "employee-management-system-api",
   "version": "1.0.0",
   "description": "Mongodb, Express, React, Nodejs",
   "main": "server.js",
