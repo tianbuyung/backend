@@ -4,6 +4,9 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 
 const handleLogin = async (req, res) => {
+  const cookies = req.cookies;
+  console.log(`cookie available at login: ${JSON.stringify(cookies)}`);
+
   const { user, password } = req.body;
 
   if (!user || !password) {
@@ -39,26 +42,59 @@ const handleLogin = async (req, res) => {
     { expiresIn: "30s" }
   );
 
-  const refreshToken = jwt.sign(
+  const newRefreshToken = jwt.sign(
     { username: foundUser.username },
     process.env.REFRESH_TOKEN_SECRET,
     { expiresIn: "1d" }
   );
 
-  // saving refreshToken with current user
-  foundUser.refreshToken = refreshToken;
+  // Changed to let keyword
+  let newRefreshTokenArray = !cookies?.jwt
+    ? foundUser.refreshToken
+    : foundUser.refreshToken.filter((rt) => rt !== cookies.jwt);
 
+  if (cookies?.jwt) {
+    /* 
+  Scenario added here: 
+      1) User logs in but never uses RT and does not logout 
+      2) RT is stolen
+      3) If 1 & 2, reuse detection is needed to clear all RTs when user logs in
+  */
+    const refreshToken = cookies.jwt;
+    const foundToken = await User.findOne({ refreshToken }).exec();
+
+    // Detected refresh token reuse!
+    if (!foundToken) {
+      console.log("attempted refresh token reuse at login!");
+      // clear out ALL previous refresh tokens
+      newRefreshTokenArray = [];
+    }
+
+    res.clearCookie("jwt", {
+      httpOnly: true,
+      sameSite: "none",
+      secure: process.env.NODE_ENV === "production" ? true : false,
+    });
+  }
+
+  // Saving refreshToken with current user
+  foundUser.refreshToken = [...newRefreshTokenArray, newRefreshToken];
   const result = await foundUser.save();
+  console.log(result);
+  console.log(roles);
 
-  res.cookie("jwt", refreshToken, {
+  // Creates Secure Cookie with refresh token
+  res.cookie("jwt", newRefreshToken, {
     httpOnly: true,
     sameSite: "none",
     secure: process.env.NODE_ENV === "production" ? true : false,
     maxAge: 24 * 60 * 60 * 1000,
   });
 
+  // Send authorization roles and access token to user
   res.status(200).json({
     message: `User ${foundUser.username} is logged in!`,
+    roles,
     accessToken,
   });
 };
