@@ -1,0 +1,217 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Employee Management System - OpenAPI 3.0",
+    "description": "The Employee Management System is a web app designed to simplify the process of managing company employees. It allows users to manage their employees records, including personal details, employment history, skills, and performance reviews. The system provides powerful search capabilities, making it easy for managers to find the right person for each job. Additionally, the system integrates seamlessly with existing HR systems, ensuring data accuracy and reducing errors.",
+    "termsOfService": "http://swagger.io/terms/",
+    "contact": {
+      "email": "septianm028@gmail.com"
+    },
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/license/mit/"
+    },
+    "version": "1.0.0"
+  },
+  "externalDocs": {
+    "description": "Find out more about Employee Management System",
+    "url": "https://github.com/tianbuyung/backend#employee-management-system-api"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3500"
+    }
+  ],
+  "tags": [
+    {
+      "name": "employees",
+      "description": "Everything about employees information",
+      "externalDocs": {
+        "description": "Find out more",
+        "url": "https://github.com/tianbuyung/backend#introduction"
+      }
+    },
+    {
+      "name": "users",
+      "description": "Operations about users"
+    }
+  ],
+  "paths": {
+    "/employees": {
+      "post": {
+        "tags": ["employees"],
+        "summary": "Create an employee",
+        "description": "Create an employee to the company",
+        "operationId": "create-employee",
+        "requestBody": {
+          "description": "Create a new employee in the company",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/employee-request-body"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful create employee",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/employee-response-body"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error: Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error-400"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error: Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error-401"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "get": {
+        "tags": ["employees"],
+        "summary": "Get all employees",
+        "description": "Get all employees in the company",
+        "operationId": "get-employees",
+        "responses": {
+          "200": {
+            "description": "Successful get all employees",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/employee-response-body"
+                  }
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "No employees found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error: Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error-401"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "employee-request-body": {
+        "type": "object",
+        "properties": {
+          "firstname": {
+            "type": "string",
+            "example": "John"
+          },
+          "lastname": {
+            "type": "string",
+            "example": "Doe"
+          }
+        },
+        "required": ["firstname", "lastname"]
+      },
+      "employee-response-body": {
+        "type": "object",
+        "properties": {
+          "firstname": {
+            "type": "string",
+            "example": "John"
+          },
+          "lastname": {
+            "type": "string",
+            "example": "Doe"
+          },
+          "_id": {
+            "type": "string",
+            "example": "64d9db09921d2d280c3cd3c5"
+          },
+          "createdAt": {
+            "type": "string",
+            "example": "2021-01-01T00:00:00.000Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "example": "2021-01-01T00:00:00.000Z"
+          },
+          "__v": {
+            "type": "number",
+            "example": 0
+          }
+        },
+        "required": ["firstname", "lastname"]
+      },
+      "error-400": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "First and last names are required"
+          }
+        }
+      },
+      "error-401": {
+        "type": "string",
+        "example": "Unauthorized"
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}
