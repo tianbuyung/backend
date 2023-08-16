@@ -5,6 +5,7 @@ const cors = require("cors");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const mongoose = require("mongoose");
+const swaggerUi = require("swagger-ui-express");
 
 const corsOptions = require("./config/corsOptions");
 const { logger } = require("./middlewares/logEvents");
@@ -12,6 +13,7 @@ const errorHandler = require("./middlewares/errorHandler");
 const verifyJWT = require("./middlewares/verifyJWT");
 const credentials = require("./middlewares/credentials");
 const connectDB = require("./config/dbConnection");
+const apiDoc = require("./docs/api.json");
 
 const PORT = process.env.PORT || 3500;
 
@@ -46,6 +48,7 @@ app.use("/register", require("./routes/register"));
 app.use("/auth", require("./routes/auth"));
 app.use("/refresh", require("./routes/refresh"));
 app.use("/logout", require("./routes/logout"));
+app.use("/api", swaggerUi.serve, swaggerUi.setup(apiDoc));
 
 app.use(verifyJWT);
 app.use("/employees", require("./routes/api/employees"));

@@ -5,7 +5,6 @@ const User = require("../models/User");
 
 const handleLogin = async (req, res) => {
   const cookies = req.cookies;
-  console.log(`cookie available at login: ${JSON.stringify(cookies)}`);
 
   const { user, password } = req.body;
 
@@ -39,7 +38,7 @@ const handleLogin = async (req, res) => {
       },
     },
     process.env.ACCESS_TOKEN_SECRET,
-    { expiresIn: "30s" }
+    { expiresIn: "1h" }
   );
 
   const newRefreshToken = jwt.sign(
@@ -65,7 +64,6 @@ const handleLogin = async (req, res) => {
 
     // Detected refresh token reuse!
     if (!foundToken) {
-      console.log("attempted refresh token reuse at login!");
       // clear out ALL previous refresh tokens
       newRefreshTokenArray = [];
     }
@@ -80,8 +78,6 @@ const handleLogin = async (req, res) => {
   // Saving refreshToken with current user
   foundUser.refreshToken = [...newRefreshTokenArray, newRefreshToken];
   const result = await foundUser.save();
-  console.log(result);
-  console.log(roles);
 
   // Creates Secure Cookie with refresh token
   res.cookie("jwt", newRefreshToken, {
