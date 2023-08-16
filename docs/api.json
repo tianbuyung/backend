@@ -111,8 +111,18 @@
               }
             }
           },
-          "204": {
-            "description": "No content",
+          "401": {
+            "description": "Error: Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error-401"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
             "content": {
               "application/json": {
                 "schema": {
@@ -126,6 +136,50 @@
                 }
               }
             }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "put": {
+        "tags": ["employees"],
+        "summary": "Update an employee",
+        "description": "Update an employee in the company",
+        "operationId": "update-employee",
+        "requestBody": {
+          "description": "Update an employee in the company",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/employee-request-body"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful updated employee",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/employee-response-body"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error: Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error-id-missing-400"
+                }
+              }
+            }
           },
           "401": {
             "description": "Error: Unauthorized",
@@ -133,6 +187,125 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/error-401"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "No employee matches ID 64d9db09921d2d280c3cd4c5"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error: Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "message: Cast to ObjectId failed for value \"64d9db09921d2d280c3cd3c\" (type string) at path \"_id\" for model \"Employee\""
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": ["employees"],
+        "summary": "Delete an employee",
+        "description": "Delete an employee in the company",
+        "operationId": "delete-employee",
+        "requestBody": {
+          "description": "Delete an employee in the company",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/employee-request-body"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful deleted employee",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/employee-response-body"
+                }
+              }
+            }
+          },
+
+          "400": {
+            "description": "Error: Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error-id-missing-400"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error: Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error-401"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "No employee matches ID 64d9db09921d2d280c3cd4c5"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error: Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "message: Cast to ObjectId failed for value \"64d9db09921d2d280c3cd3c\" (type string) at path \"_id\" for model \"Employee\""
+                    }
+                  }
                 }
               }
             }
@@ -158,6 +331,10 @@
           "lastname": {
             "type": "string",
             "example": "Doe"
+          },
+          "id": {
+            "type": "string",
+            "example": "64d9db09921d2d280c3cd3c5"
           }
         },
         "required": ["firstname", "lastname"]
@@ -198,6 +375,15 @@
           "message": {
             "type": "string",
             "example": "First and last names are required"
+          }
+        }
+      },
+      "error-id-missing-400": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Id parameter is required"
           }
         }
       },

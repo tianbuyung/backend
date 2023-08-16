@@ -4,7 +4,7 @@ const readAllEmployees = async (req, res) => {
   const employees = await Employee.find();
 
   if (!employees)
-    return res.status(204).json({
+    return res.status(404).json({
       message: "No employees found",
     });
 
@@ -35,20 +35,24 @@ const updateEmployee = async (req, res) => {
     return res.status(400).json({ message: "Id parameter is required" });
   }
 
-  const employee = await Employee.findOne({ _id: req.body.id }).exec();
+  try {
+    const employee = await Employee.findOne({ _id: req.body.id }).exec();
 
-  if (!employee) {
-    return res
-      .status(204)
-      .json({ message: `No employee matches ID ${req.body.id}` });
+    if (!employee) {
+      return res
+        .status(404)
+        .json({ message: `No employee matches ID ${req.body.id}` });
+    }
+
+    if (req?.body?.firstname) employee.firstname = req.body.firstname;
+    if (req?.body?.lastname) employee.lastname = req.body.lastname;
+
+    const result = await employee.save();
+
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
-
-  if (req?.body?.firstname) employee.firstname = req.body.firstname;
-  if (req?.body?.lastname) employee.lastname = req.body.lastname;
-
-  const result = await employee.save();
-
-  res.json(result);
 };
 
 const deleteEmployee = async (req, res) => {
@@ -56,17 +60,21 @@ const deleteEmployee = async (req, res) => {
     return res.status(400).json({ message: "Id parameter is required" });
   }
 
-  const employee = await Employee.findOne({ _id: req.body.id }).exec();
+  try {
+    const employee = await Employee.findOne({ _id: req.body.id }).exec();
 
-  if (!employee) {
-    return res
-      .status(204)
-      .json({ message: `No employee matches ID ${req.body.id}` });
+    if (!employee) {
+      return res
+        .status(404)
+        .json({ message: `No employee matches ID ${req.body.id}` });
+    }
+
+    const result = await employee.deleteOne({ _id: req.body.id });
+
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
-
-  const result = await employee.deleteOne({ _id: req.body.id });
-
-  res.status(200).json(result);
 };
 
 const readEmployee = async (req, res) => {
@@ -74,15 +82,19 @@ const readEmployee = async (req, res) => {
     return res.status(400).json({ message: "Id parameter is required" });
   }
 
-  const employee = await Employee.findOne({ _id: req.params.id }).exec();
+  try {
+    const employee = await Employee.findOne({ _id: req.params.id }).exec();
 
-  if (!employee) {
-    return res
-      .status(204)
-      .json({ message: `No employee matches ID ${req.params.id}` });
+    if (!employee) {
+      return res
+        .status(204)
+        .json({ message: `No employee matches ID ${req.params.id}` });
+    }
+
+    res.status(200).json(employee);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
-
-  res.status(200).json(employee);
 };
 
 module.exports = {
