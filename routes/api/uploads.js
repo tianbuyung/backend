@@ -8,12 +8,14 @@ const fileExtLimiter = require("../../middlewares/fileExtLimiter");
 const fileSizeLimiter = require("../../middlewares/fileSizeLimiter");
 const uploadFileController = require("../../controllers/uploadFileController");
 
-router.route("/").post(
-  fileUpload({ createParentPath: true }),
-  // filesPayloadExists,
-  // fileExtLimiter([".png", ".jpg", ".jpeg"]),
-  // fileSizeLimiter,
-  uploadFileController.uploadFileController
-);
+router
+  .route("/")
+  .post(
+    fileUpload({ createParentPath: true }),
+    filesPayloadExists,
+    fileExtLimiter([".png", ".jpg", ".jpeg"]),
+    fileSizeLimiter,
+    uploadFileController.uploadFileController
+  );
 
 module.exports = router;
