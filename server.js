@@ -52,6 +52,7 @@ app.use("/api", swaggerUi.serve, swaggerUi.setup(apiDoc));
 
 app.use(verifyJWT);
 app.use("/employees", require("./routes/api/employees"));
+app.use("/uploads", require("./routes/api/uploads"));
 
 app.all("*", (req, res) => {
   res.status(404);
