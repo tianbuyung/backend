@@ -1,7 +1,7 @@
 const path = require("path");
 
 const uploadFileController = (req, res) => {
-  const files = req.files;
+  const files = req.files.files.length > 0 ? req.files.files : req.files;
 
   Object.keys(files).forEach((key) => {
     const filepath = path.join(__dirname, "..", "files", files[key].name);

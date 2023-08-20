@@ -2,7 +2,7 @@ const path = require("path");
 
 const fileExtLimiter = (allowedExtArray) => {
   return (req, res, next) => {
-    const files = req.files;
+    const files = req.files.files.length > 0 ? req.files.files : req.files;
 
     const fileExtensions = [];
     Object.keys(files).forEach((key) => {
